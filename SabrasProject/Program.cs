@@ -13,28 +13,26 @@ namespace SabrasProject
 
         public void WalkDirectoryTree(DirectoryInfo directorySelected, List<FileInfo> allFoundFiles, string searchPattern)
         {
-            FileInfo[] files = null;
+            FileInfo[] stuff = null;
             DirectoryInfo[] subDirectories = null;
-
-            // First, process all the files directly under this folder
             try
             {
-                files = directorySelected.GetFiles(searchPattern);
+                stuff = directorySelected.GetFiles(searchPattern);
             }
             // This is thrown if even one of the files requires permissions greater
             // than the application provides.
             catch (UnauthorizedAccessException e)
             {
-                // Just writes out the message and continues to recurse, doesn't try anything fancy.
+                // TODO: Add a password prompt
                 Console.WriteLine(e.Message);
             }
             catch (DirectoryNotFoundException e)
             {
                 Console.WriteLine(e.Message);
             }
-            if (files != null)
+            if (stuff != null)
             {
-                foreach (FileInfo fi in files)
+                foreach (FileInfo fi in stuff)
                 {
                     allFoundFiles.Add(fi);
                 }
