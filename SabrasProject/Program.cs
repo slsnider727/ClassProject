@@ -14,7 +14,13 @@ namespace SabrasProject
             var pink = something.Beep();
             var thing = something.Boop();
             //This is where Zhu Li does the thing.
-            something.ZhuLiDoTheThing();
+            something.ZhuLiDoTheThing(thing, green, pink);
+            foreach (var yellow in green)
+            {
+                Console.WriteLine("Tadaaaaaa");
+                Console.WriteLine(yellow.ToString());
+            }
+            Console.ReadKey();
         }
     }
 
