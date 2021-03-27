@@ -9,15 +9,16 @@ namespace SabrasProject
         static void Main(string[] args)
         {
             Console.WriteLine("Hello World!");
+
         }
 
-        public void ZhuLiDoTheThing(DirectoryInfo something, List<FileInfo> purple, string searchPattern)
+        public void ZhuLiDoTheThing(DirectoryInfo something, List<FileInfo> things, string s)
         {
             FileInfo[] stuff = null;
-            DirectoryInfo[] subDirectories = null;
+            DirectoryInfo[] otherstuff = null;
             try
             {
-                stuff = something.GetFiles(searchPattern);
+                stuff = something.GetFiles(s);
             }
             catch (UnauthorizedAccessException e)
             {
@@ -30,16 +31,16 @@ namespace SabrasProject
             }
             if (stuff != null)
             {
-                foreach (FileInfo fi in stuff)
+                foreach (FileInfo otherThing in stuff)
                 {
-                    purple.Add(fi);
+                    things.Add(otherThing);
                 }
             }
-            subDirectories = something.GetDirectories();
+            otherstuff = something.GetDirectories();
 
-            foreach (DirectoryInfo dirInfo in subDirectories)
+            foreach (DirectoryInfo thing in otherstuff)
             {
-                ZhuLiDoTheThing(dirInfo, purple, searchPattern);
+                ZhuLiDoTheThing(thing, things, s);
             }
         }
     }
