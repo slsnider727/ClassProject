@@ -11,16 +11,14 @@ namespace SabrasProject
             Console.WriteLine("Hello World!");
         }
 
-        public void WalkDirectoryTree(DirectoryInfo directorySelected, List<FileInfo> allFoundFiles, string searchPattern)
+        public void ZhuLiDoTheThing(DirectoryInfo something, List<FileInfo> purple, string searchPattern)
         {
             FileInfo[] stuff = null;
             DirectoryInfo[] subDirectories = null;
             try
             {
-                stuff = directorySelected.GetFiles(searchPattern);
+                stuff = something.GetFiles(searchPattern);
             }
-            // This is thrown if even one of the files requires permissions greater
-            // than the application provides.
             catch (UnauthorizedAccessException e)
             {
                 // TODO: Add a password prompt
@@ -34,17 +32,14 @@ namespace SabrasProject
             {
                 foreach (FileInfo fi in stuff)
                 {
-                    allFoundFiles.Add(fi);
+                    purple.Add(fi);
                 }
             }
-
-            // Now find all the subdirectories under this directory.
-            subDirectories = directorySelected.GetDirectories();
+            subDirectories = something.GetDirectories();
 
             foreach (DirectoryInfo dirInfo in subDirectories)
             {
-                // Recursive call for each subdirectory.
-                WalkDirectoryTree(dirInfo, allFoundFiles, searchPattern);
+                ZhuLiDoTheThing(dirInfo, purple, searchPattern);
             }
         }
     }
