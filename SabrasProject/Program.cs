@@ -8,17 +8,16 @@ namespace SabrasProject
     {
         static void Main(string[] args)
         {
-            var something = new Methods();
-            Console.WriteLine("Hello World!");
-            var green = new List<FileInfo>();
-            var pink = something.Beep();
-            var thing = something.Boop();
-            //This is where Zhu Li does the thing.
-            something.ZhuLiDoTheThing(thing, green, pink);
-            foreach (var yellow in green)
+            var methods = new Methods();
+
+            var fileInfoList = new List<FileInfo>();
+            var searchPattern = methods.GetSearchPatternFromUser();
+            var directoryInfo = methods.GetDirectoryFromUser();
+            methods.GetFileListFromRecursiveDirectorySearch(directoryInfo, fileInfoList, searchPattern);
+            foreach (var fileInfo in fileInfoList)
             {
-                Console.WriteLine("Tadaaaaaa");
-                Console.WriteLine(yellow.ToString());
+                Console.WriteLine("I found these files based on your search pattern:");
+                Console.WriteLine(fileInfo.ToString());
             }
             Console.ReadKey();
         }
@@ -26,47 +25,46 @@ namespace SabrasProject
 
     public class Methods
     {
-        public void ZhuLiDoTheThing(DirectoryInfo something, List<FileInfo> things, string s)
+        public void GetFileListFromRecursiveDirectorySearch(DirectoryInfo directoryInfo, List<FileInfo> fileInfoList, string searchPattern)
         {
-            FileInfo[] stuff = null;
-            DirectoryInfo[] otherstuff = null;
+            FileInfo[] fileInfoArray = null;
+            DirectoryInfo[] initialDirectoryInfo = null;
             try
             {
-                stuff = something.GetFiles(s);
+                fileInfoArray = directoryInfo.GetFiles(searchPattern);
             }
             catch (UnauthorizedAccessException e)
             {
-                // TODO: Add a password prompt
                 Console.WriteLine(e.Message);
             }
             catch (DirectoryNotFoundException e)
             {
                 Console.WriteLine(e.Message);
             }
-            if (stuff != null)
+            if (fileInfoArray != null)
             {
-                foreach (FileInfo otherThing in stuff)
+                foreach (FileInfo fileInfo in fileInfoArray)
                 {
-                    things.Add(otherThing);
+                    fileInfoList.Add(fileInfo);
                 }
             }
-            otherstuff = something.GetDirectories();
-            foreach (DirectoryInfo thing in otherstuff)
+            initialDirectoryInfo = directoryInfo.GetDirectories();
+            foreach (DirectoryInfo dirInfo in initialDirectoryInfo)
             {
-                ZhuLiDoTheThing(thing, things, s);
+                GetFileListFromRecursiveDirectorySearch(dirInfo, fileInfoList, searchPattern);
             }
         }
 
-        public DirectoryInfo Boop()
+        public DirectoryInfo GetDirectoryFromUser()
         {
-            Console.WriteLine("Where are we?");
-            var thing = Console.ReadLine();
-            return new DirectoryInfo(thing);
+            Console.WriteLine("What directory do you want to search?");
+            var directoryChoice = Console.ReadLine();
+            return new DirectoryInfo(directoryChoice);
         }
 
-        public string Beep()
+        public string GetSearchPatternFromUser()
         {
-            Console.WriteLine("So tell me what you want, what you really really want.");
+            Console.WriteLine("What is your search pattern?");
             return Console.ReadLine();
         }
     }
