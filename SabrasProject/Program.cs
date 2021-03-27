@@ -31,6 +31,7 @@ namespace SabrasProject
             DirectoryInfo[] initialDirectoryInfo = null;
             try
             {
+                //throw random comment in to explain
                 fileInfoArray = directoryInfo.GetFiles(searchPattern);
             }
             catch (UnauthorizedAccessException e)
