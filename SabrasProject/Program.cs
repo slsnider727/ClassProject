@@ -11,7 +11,7 @@ namespace SabrasProject
             Console.WriteLine("Hello World!");
         }
 
-        public void WalkDirectoryTree(DirectoryInfo directorySelected, List<FileInfo> allFoundFiles)
+        public void WalkDirectoryTree(DirectoryInfo directorySelected, List<FileInfo> allFoundFiles, string searchPattern)
         {
             FileInfo[] files = null;
             DirectoryInfo[] subDirectories = null;
@@ -19,7 +19,7 @@ namespace SabrasProject
             // First, process all the files directly under this folder
             try
             {
-                files = directorySelected.GetFiles("*.gz*");
+                files = directorySelected.GetFiles(searchPattern);
             }
             // This is thrown if even one of the files requires permissions greater
             // than the application provides.
@@ -46,7 +46,7 @@ namespace SabrasProject
             foreach (DirectoryInfo dirInfo in subDirectories)
             {
                 // Recursive call for each subdirectory.
-                WalkDirectoryTree(dirInfo, allFoundFiles);
+                WalkDirectoryTree(dirInfo, allFoundFiles, searchPattern);
             }
         }
     }
